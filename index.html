@@ -6,6 +6,22 @@
     <title>Project Days Calendar</title>
     <!-- <script type="module" src="common.mjs"></script> -->
     <!-- <script type="module" src="web.mjs"></script> -->
+    <style>
+      #calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        margin-top: 20px;
+      }
+      #calendar-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+    </style>
   </head>
   <body>
     <h1>Project Days Calendar</h1>
@@ -40,14 +56,14 @@
       </div>
     </div>
 
-    <div id="calendar-grid" role="grid" aria-label="Calendar">
-      <div class="day-header" role="columnheader">Sunday</div>
-      <div class="day-header" role="columnheader">Monday</div>
-      <div class="day-header" role="columnheader">Tuesday</div>
-      <div class="day-header" role="columnheader">Wednesday</div>
-      <div class="day-header" role="columnheader">Thursday</div>
-      <div class="day-header" role="columnheader">Friday</div>
-      <div class="day-header" role="columnheader">Saturday</div>
+    <div id="calendar-grid" aria-label="Calendar">
+      <div class="day-header">Sunday</div>
+      <div class="day-header">Monday</div>
+      <div class="day-header">Tuesday</div>
+      <div class="day-header">Wednesday</div>
+      <div class="day-header">Thursday</div>
+      <div class="day-header">Friday</div>
+      <div class="day-header">Saturday</div>
       <!-- Will be populated by JavaScript -->
     </div>
   </body>
