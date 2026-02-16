@@ -1,9 +1,54 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <script type="module" src="common.mjs"></script>
-        <script type="module" src="web.mjs"></script>
-    </head>
-    <body>
-    </body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Days Calendar</title>
+    <!-- <script type="module" src="common.mjs"></script> -->
+    <!-- <script type="module" src="web.mjs"></script> -->
+  </head>
+  <body>
+    <h1>Project Days Calendar</h1>
+
+    <div id="calendar-controls">
+      <button id="prev-month" aria-label="Previous month">← Previous</button>
+
+      <div id="current-month-year" role="status" aria-live="polite"></div>
+
+      <button id="next-month" aria-label="Next month">Next →</button>
+
+      <div>
+        <label for="month-select">Jump to:</label>
+        <select id="month-select" aria-label="Select month">
+          <option value="0">January</option>
+          <option value="1">February</option>
+          <option value="2">March</option>
+          <option value="3">April</option>
+          <option value="4">May</option>
+          <option value="5">June</option>
+          <option value="6">July</option>
+          <option value="7">August</option>
+          <option value="8">September</option>
+          <option value="9">October</option>
+          <option value="10">November</option>
+          <option value="11">December</option>
+        </select>
+
+        <select id="year-select" aria-label="Select year">
+          <!-- Will be populated by JavaScript -->
+        </select>
+      </div>
+    </div>
+
+    <div id="calendar-grid" role="grid" aria-label="Calendar">
+      <div class="day-header" role="columnheader">Sunday</div>
+      <div class="day-header" role="columnheader">Monday</div>
+      <div class="day-header" role="columnheader">Tuesday</div>
+      <div class="day-header" role="columnheader">Wednesday</div>
+      <div class="day-header" role="columnheader">Thursday</div>
+      <div class="day-header" role="columnheader">Friday</div>
+      <div class="day-header" role="columnheader">Saturday</div>
+      <!-- Will be populated by JavaScript -->
+    </div>
+  </body>
 </html>
