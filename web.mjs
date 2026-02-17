@@ -11,6 +11,7 @@ const previousMonthButton = document.getElementById("prev-month");
 const nextMonthButton = document.getElementById("next-month");
 const monthSelectControl = document.getElementById("month-select");
 const yearSelectControl = document.getElementById("year-select");
+const calendarGrid = document.getElementById("calendar-grid");
 
 const calendar = {
   month: null,
@@ -54,17 +55,55 @@ function populateYearSelectControl(element) {
   }
 }
 
-function formatMonthYear(month, year = calendar.year) {
-  return new Date(month, year).toLocaleString(undefined, { month: "long", year: "numeric" });
+function formatMonthYear(month, year) {
+  return new Date(year, month).toLocaleString(undefined, { month: "long", year: "numeric" });
 }
 
-function setCalendar(month, year) {
+function updateHeader() {
+  currentMonthYear.textContent = formatMonthYear(calendar.month, calendar.year);
+}
+
+function setCalendar(month, year = calendar.year) {
   calendar.month = Number(month);
   calendar.year = Number(year);
   renderCalendar();
 }
 
-function renderCalendar() {}
+function synchroniseControls() {
+  monthSelectControl.value = calendar.month;
+  yearSelectControl.value = calendar.year;
+}
+
+function renderGrid() {
+  // Remove old day cells but keep 7 weekday headers
+  while (calendarGrid.children.length > 7) {
+    calendarGrid.removeChild(calendarGrid.lastChild);
+  }
+
+  const firstDay = new Date(calendar.year, calendar.month, 1).getDay();
+  const daysInMonth = new Date(calendar.year, calendar.month + 1, 0).getDate();
+
+  // Leading empty cells
+  for (let i = 0; i < firstDay; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.setAttribute("role", "gridcell");
+    calendarGrid.appendChild(emptyCell);
+  }
+
+  // Actual days
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cell = document.createElement("div");
+    cell.textContent = day;
+    cell.setAttribute("role", "gridcell");
+    calendarGrid.appendChild(cell);
+  }
+}
+
+function renderCalendar() {
+  updateHeader();
+  synchroniseControls();
+  renderGrid();
+}
 
 window.addEventListener("load", () => {
   previousMonthButton.addEventListener("click", previousMonth);
@@ -76,9 +115,6 @@ window.addEventListener("load", () => {
   calendar.month = today.getMonth();
   calendar.year = today.getFullYear();
 
-  currentMonthYear.textContent = formatMonthYear(calendar.month, calendar.year);
   populateYearSelectControl(yearSelectControl);
-
-  monthSelectControl.value = calendar.month;
-  yearSelectControl.value = calendar.year;
+  renderCalendar();
 });
