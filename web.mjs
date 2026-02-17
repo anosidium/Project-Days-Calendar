@@ -10,15 +10,31 @@ function previousMonth() {}
 
 function nextMonth() {}
 
-function changeMonth() {}
+function changeMonth(event) {}
 
-function changeYear() {}
+function changeYear(event) {}
+
+function populateYearSelectControl(element) {
+  for (let i = 1900; i <= 2050; i++) {
+    const option = new Option(i.toString(), i);
+    element.add(option);
+  }
+}
+
+function getCurrentMonthAndYear() {
+  const date = new Date();
+  return date.toLocaleString(undefined, { month: "long", year: "numeric" });
+}
 
 window.addEventListener("load", () => {
+  const currentMonthYear = document.getElementById("current-month-year");
   const previousMonthButton = document.getElementById("prev-month");
   const nextMonthButton = document.getElementById("next-month");
   const monthSelectControl = document.getElementById("month-select");
   const yearSelectControl = document.getElementById("year-select");
+
+  currentMonthYear.textContent = getCurrentMonthAndYear();
+  populateYearSelectControl(yearSelectControl);
 
   previousMonthButton.addEventListener("click", previousMonth);
   nextMonthButton.addEventListener("click", nextMonth);
