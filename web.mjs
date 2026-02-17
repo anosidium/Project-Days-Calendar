@@ -6,13 +6,46 @@
 import { getGreeting } from "./common.mjs";
 import daysData from "./days.json" with { type: "json" };
 
-function previousMonth() {}
+const currentMonthYear = document.getElementById("current-month-year");
+const previousMonthButton = document.getElementById("prev-month");
+const nextMonthButton = document.getElementById("next-month");
+const monthSelectControl = document.getElementById("month-select");
+const yearSelectControl = document.getElementById("year-select");
 
-function nextMonth() {}
+const calendar = {
+  month: null,
+  year: null,
+};
 
-function changeMonth(event) {}
+function previousMonth() {
+  if (calendar.month === 0) {
+    calendar.month = 11;
+    calendar.year -= 1;
+  } else {
+    calendar.month -= 1;
+  }
 
-function changeYear(event) {}
+  renderCalendar();
+}
+
+function nextMonth() {
+  if (calendar.month === 11) {
+    calendar.month = 0;
+    calendar.year += 1;
+  } else {
+    calendar.month += 1;
+  }
+
+  renderCalendar();
+}
+
+function changeMonth(event) {
+  setCalendar(event.target.value);
+}
+
+function changeYear(event) {
+  setCalendar(calendar.month, event.target.value);
+}
 
 function populateYearSelectControl(element) {
   for (let i = 1900; i <= 2050; i++) {
@@ -21,23 +54,31 @@ function populateYearSelectControl(element) {
   }
 }
 
-function getCurrentMonthAndYear() {
-  const date = new Date();
-  return date.toLocaleString(undefined, { month: "long", year: "numeric" });
+function formatMonthYear(month, year = calendar.year) {
+  return new Date(month, year).toLocaleString(undefined, { month: "long", year: "numeric" });
 }
 
+function setCalendar(month, year) {
+  calendar.month = Number(month);
+  calendar.year = Number(year);
+  renderCalendar();
+}
+
+function renderCalendar() {}
+
 window.addEventListener("load", () => {
-  const currentMonthYear = document.getElementById("current-month-year");
-  const previousMonthButton = document.getElementById("prev-month");
-  const nextMonthButton = document.getElementById("next-month");
-  const monthSelectControl = document.getElementById("month-select");
-  const yearSelectControl = document.getElementById("year-select");
-
-  currentMonthYear.textContent = getCurrentMonthAndYear();
-  populateYearSelectControl(yearSelectControl);
-
   previousMonthButton.addEventListener("click", previousMonth);
   nextMonthButton.addEventListener("click", nextMonth);
   monthSelectControl.addEventListener("change", changeMonth);
   yearSelectControl.addEventListener("change", changeYear);
+
+  const today = new Date();
+  calendar.month = today.getMonth();
+  calendar.year = today.getFullYear();
+
+  currentMonthYear.textContent = formatMonthYear(calendar.month, calendar.year);
+  populateYearSelectControl(yearSelectControl);
+
+  monthSelectControl.value = calendar.month;
+  yearSelectControl.value = calendar.year;
 });
