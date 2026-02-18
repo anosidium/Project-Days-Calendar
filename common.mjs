@@ -41,13 +41,13 @@ export function getDateForDay(day, year) {
     return new Date(year, month, lastDate.getDate() - diff);
   }
 
-  const n = OCCURRENCE_MAP[day.occurrence];
+  const occurrenceNumber = OCCURRENCE_MAP[day.occurrence];
   // First day of the month
   const firstOfMonth = new Date(year, month, 1);
   const firstDayOfWeek = firstOfMonth.getDay();
   // How many days until the first occurrence of targetDay
   const daysUntilTarget = (targetDay - firstDayOfWeek + 7) % 7;
-  const date = 1 + daysUntilTarget + (n - 1) * 7;
+  const date = 1 + daysUntilTarget + (occurrenceNumber - 1) * 7;
   return new Date(year, month, date);
 }
 
