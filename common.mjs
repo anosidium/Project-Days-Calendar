@@ -37,8 +37,8 @@ export function getDateForDay(day, year) {
   if (day.occurrence === "last") {
     // Start from last day of month and go backwards
     const lastDate = new Date(year, month + 1, 0);
-    const diff = (lastDate.getDay() - targetDay + 7) % 7;
-    return new Date(year, month, lastDate.getDate() - diff);
+    const daysBackToTarget = (lastDate.getDay() - targetDay + 7) % 7;
+    return new Date(year, month, lastDate.getDate() - daysBackToTarget);
   }
 
   const occurrenceNumber = OCCURRENCE_MAP[day.occurrence];
