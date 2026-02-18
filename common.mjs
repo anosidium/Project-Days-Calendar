@@ -42,7 +42,6 @@ export function getDateForDay(day, year) {
   }
 
   const occurrenceNumber = OCCURRENCE_MAP[day.occurrence];
-  // First day of the month
   const firstOfMonth = new Date(year, month, 1);
   const firstDayOfWeek = firstOfMonth.getDay();
   // How many days until the first occurrence of targetDay
