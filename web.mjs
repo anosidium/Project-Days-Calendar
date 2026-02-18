@@ -105,7 +105,7 @@ function renderCalendar() {
   renderGrid();
 }
 
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
   previousMonthButton.addEventListener("click", previousMonth);
   nextMonthButton.addEventListener("click", nextMonth);
   monthSelectControl.addEventListener("change", changeMonth);
