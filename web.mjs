@@ -1,7 +1,4 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files.
-// It can be loaded into index.html.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
+import { getDaysForMonth } from "./common.mjs";
 
 const currentMonthYear = document.getElementById("current-month-year");
 const previousMonthButton = document.getElementById("prev-month");
@@ -9,6 +6,8 @@ const nextMonthButton = document.getElementById("next-month");
 const monthSelectControl = document.getElementById("month-select");
 const yearSelectControl = document.getElementById("year-select");
 const calendarGrid = document.getElementById("calendar-grid");
+
+let commemorativeDays = [];
 
 const calendar = {
   month: null,
@@ -53,7 +52,10 @@ function populateYearSelectControl(element) {
 }
 
 function formatMonthYear(month, year) {
-  return new Date(year, month).toLocaleString(undefined, { month: "long", year: "numeric" });
+  return new Date(year, month).toLocaleString(undefined, {
+    month: "long",
+    year: "numeric",
+  });
 }
 
 function updateHeader() {
@@ -79,6 +81,11 @@ function renderGrid() {
 
   const firstDay = new Date(calendar.year, calendar.month, 1).getDay();
   const daysInMonth = new Date(calendar.year, calendar.month + 1, 0).getDate();
+  const specialDays = getDaysForMonth(
+    commemorativeDays,
+    calendar.month,
+    calendar.year
+  );
 
   // Leading empty cells
   for (let i = 0; i < firstDay; i++) {
@@ -90,8 +97,21 @@ function renderGrid() {
   // Actual days
   for (let day = 1; day <= daysInMonth; day++) {
     const cell = document.createElement("div");
-    cell.textContent = day;
+    const dayNumber = document.createElement("div");
+    dayNumber.className = "day-number";
+    dayNumber.textContent = day;
+    cell.appendChild(dayNumber);
     cell.setAttribute("role", "gridcell");
+
+    if (specialDays.has(day)) {
+      for (const special of specialDays.get(day)) {
+        const label = document.createElement("div");
+        label.className = "day-event";
+        label.textContent = special.name;
+        cell.appendChild(label);
+      }
+    }
+
     calendarGrid.appendChild(cell);
   }
 }
@@ -102,7 +122,7 @@ function renderCalendar() {
   renderGrid();
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   previousMonthButton.addEventListener("click", previousMonth);
   nextMonthButton.addEventListener("click", nextMonth);
   monthSelectControl.addEventListener("change", changeMonth);
@@ -113,5 +133,9 @@ window.addEventListener("DOMContentLoaded", () => {
   calendar.year = today.getFullYear();
 
   populateYearSelectControl(yearSelectControl);
+
+  const response = await fetch("days.json");
+  commemorativeDays = await response.json();
+
   renderCalendar();
 });
