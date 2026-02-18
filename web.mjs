@@ -88,7 +88,10 @@ function renderGrid() {
   // Actual days
   for (let day = 1; day <= daysInMonth; day++) {
     const cell = document.createElement("div");
-    cell.textContent = day;
+    const dayNumber = document.createElement("div");
+    dayNumber.className = "day-number";
+    dayNumber.textContent = day;
+    cell.appendChild(dayNumber);
     cell.setAttribute("role", "gridcell");
     calendarGrid.appendChild(cell);
   }
