@@ -5,6 +5,8 @@ const monthSelectControl = document.getElementById("month-select");
 const yearSelectControl = document.getElementById("year-select");
 const calendarGrid = document.getElementById("calendar-grid");
 
+let commemorativeDays = [];
+
 const calendar = {
   month: null,
   year: null,
@@ -103,7 +105,7 @@ function renderCalendar() {
   renderGrid();
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   previousMonthButton.addEventListener("click", previousMonth);
   nextMonthButton.addEventListener("click", nextMonth);
   monthSelectControl.addEventListener("change", changeMonth);
@@ -114,5 +116,9 @@ window.addEventListener("DOMContentLoaded", () => {
   calendar.year = today.getFullYear();
 
   populateYearSelectControl(yearSelectControl);
+
+  const response = await fetch("days.json");
+  commemorativeDays = await response.json();
+
   renderCalendar();
 });
