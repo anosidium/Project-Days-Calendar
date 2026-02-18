@@ -2,7 +2,7 @@ import { getDateForDay } from "./common.mjs";
 import assert from "node:assert";
 import { describe, test } from "node:test";
 
-(describe("getDateForDay returns the correct date for a commemorative day"),
+(describe("getDateForDay"),
   () => {
     test("Ada Lovelace Day 2024 is October 8", () => {
       const day = {
