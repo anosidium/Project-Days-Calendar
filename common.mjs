@@ -50,3 +50,20 @@ export function getDateForDay(day, year) {
   const date = 1 + daysUntilTarget + (n - 1) * 7;
   return new Date(year, month, date);
 }
+
+export function getDaysForMonth(days, month, year) {
+  const result = new Map();
+  const monthName = MONTH_NAMES[month];
+  const daysInMonth = days.filter((d) => d.monthName === monthName);
+
+  for (const day of daysInMonth) {
+    const date = getDateForDay(day, year);
+    const dayOfMonth = date.getDate();
+    if (!result.has(dayOfMonth)) {
+      result.set(dayOfMonth, []);
+    }
+    result.get(dayOfMonth).push(day);
+  }
+
+  return result;
+}
