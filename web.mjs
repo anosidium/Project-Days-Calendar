@@ -1,3 +1,5 @@
+import { getDaysForMonth } from "./common.mjs";
+
 const currentMonthYear = document.getElementById("current-month-year");
 const previousMonthButton = document.getElementById("prev-month");
 const nextMonthButton = document.getElementById("next-month");
@@ -79,6 +81,11 @@ function renderGrid() {
 
   const firstDay = new Date(calendar.year, calendar.month, 1).getDay();
   const daysInMonth = new Date(calendar.year, calendar.month + 1, 0).getDate();
+  const specialDays = getDaysForMonth(
+    commemorativeDays,
+    calendar.month,
+    calendar.year
+  );
 
   // Leading empty cells
   for (let i = 0; i < firstDay; i++) {
@@ -95,6 +102,16 @@ function renderGrid() {
     dayNumber.textContent = day;
     cell.appendChild(dayNumber);
     cell.setAttribute("role", "gridcell");
+
+    if (specialDays.has(day)) {
+      for (const special of specialDays.get(day)) {
+        const label = document.createElement("div");
+        label.className = "day-event";
+        label.textContent = special.name;
+        cell.appendChild(label);
+      }
+    }
+
     calendarGrid.appendChild(cell);
   }
 }
