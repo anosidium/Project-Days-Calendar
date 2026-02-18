@@ -38,3 +38,27 @@ import { describe, test } from "node:test";
       assert.strictEqual(result.getMonth(), 9);
     });
   });
+
+(describe("getDaysForMonth"),
+  () => {
+    test("returns correct entries for October 2024", () => {
+      const days = [
+        {
+          name: "Ada Lovelace Day",
+          monthName: "October",
+          dayName: "Tuesday",
+          occurrence: "second",
+        },
+        {
+          name: "World Lemur Day",
+          monthName: "October",
+          dayName: "Friday",
+          occurrence: "last",
+        },
+      ];
+      const result = getDaysForMonth(days, 9, 2024);
+      assert.strictEqual(result.size, 2);
+      assert.strictEqual(result.get(8)[0].name, "Ada Lovelace Day");
+      assert.strictEqual(result.get(25)[0].name, "World Lemur Day");
+    });
+  });
