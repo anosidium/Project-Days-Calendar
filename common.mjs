@@ -46,8 +46,8 @@ export function getDateForDay(day, year) {
   const firstDayOfWeek = firstOfMonth.getDay();
   // How many days until the first occurrence of targetDay
   const daysUntilTarget = (targetDay - firstDayOfWeek + 7) % 7;
-  const date = 1 + daysUntilTarget + (occurrenceNumber - 1) * 7;
-  return new Date(year, month, date);
+  const dayOfMonth = 1 + daysUntilTarget + (occurrenceNumber - 1) * 7;
+  return new Date(year, month, dayOfMonth);
 }
 
 export function getDaysForMonth(days, month, year) {
