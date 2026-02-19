@@ -5,7 +5,7 @@ const previousMonthButton = document.getElementById("prev-month");
 const nextMonthButton = document.getElementById("next-month");
 const monthSelectControl = document.getElementById("month-select");
 const yearSelectControl = document.getElementById("year-select");
-const calendarGrid = document.getElementById("calendar-grid");
+const calendarBody = document.getElementById("calendar-body");
 
 let commemorativeDays = [];
 
@@ -74,9 +74,9 @@ function synchroniseControls() {
 }
 
 function renderGrid() {
-  // Remove old day cells but keep 7 weekday headers
-  while (calendarGrid.children.length > 7) {
-    calendarGrid.removeChild(calendarGrid.lastChild);
+  // Remove old day rows but keep the header rowgroup
+  while (calendarBody.firstChild) {
+    calendarBody.removeChild(calendarBody.firstChild);
   }
 
   const firstDay = new Date(calendar.year, calendar.month, 1).getDay();
@@ -87,32 +87,39 @@ function renderGrid() {
     calendar.year
   );
 
-  // Leading empty cells
-  for (let i = 0; i < firstDay; i++) {
-    const emptyCell = document.createElement("div");
-    emptyCell.setAttribute("role", "gridcell");
-    calendarGrid.appendChild(emptyCell);
-  }
+  const totalCells = firstDay + daysInMonth;
+  const totalRows = Math.ceil(totalCells / 7);
 
-  // Actual days
-  for (let day = 1; day <= daysInMonth; day++) {
-    const cell = document.createElement("div");
-    const dayNumber = document.createElement("div");
-    dayNumber.className = "day-number";
-    dayNumber.textContent = day;
-    cell.appendChild(dayNumber);
-    cell.setAttribute("role", "gridcell");
+  for (let rowIndex = 0; rowIndex < totalRows; rowIndex++) {
+    const row = document.createElement("div");
+    row.setAttribute("role", "row");
 
-    if (specialDays.has(day)) {
-      for (const special of specialDays.get(day)) {
-        const label = document.createElement("div");
-        label.className = "day-event";
-        label.textContent = special.name;
-        cell.appendChild(label);
+    for (let colIndex = 0; colIndex < 7; colIndex++) {
+      const cellIndex = rowIndex * 7 + colIndex;
+      const cell = document.createElement("div");
+      cell.setAttribute("role", "gridcell");
+
+      if (cellIndex >= firstDay && cellIndex < firstDay + daysInMonth) {
+        const day = cellIndex - firstDay + 1;
+        const dayNumber = document.createElement("div");
+        dayNumber.className = "day-number";
+        dayNumber.textContent = day;
+        cell.appendChild(dayNumber);
+
+        if (specialDays.has(day)) {
+          for (const special of specialDays.get(day)) {
+            const label = document.createElement("div");
+            label.className = "day-event";
+            label.textContent = special.name;
+            cell.appendChild(label);
+          }
+        }
       }
+
+      row.appendChild(cell);
     }
 
-    calendarGrid.appendChild(cell);
+    calendarBody.appendChild(row);
   }
 }
 
