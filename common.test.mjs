@@ -27,6 +27,19 @@ describe("getDateForDay", () => {
     assert.strictEqual(result.getDate(), 14);
     assert.strictEqual(result.getMonth(), 9);
   });
+
+  test("World Lemur Day 2026 is 30 October", () => {
+    const day = {
+      monthName: "October",
+      dayName: "Friday",
+      occurrence: "last",
+    };
+
+    const result = getDateForDay(day, 2026);
+
+    assert.strictEqual(result.getDate(), 30);
+    assert.strictEqual(result.getMonth(), 9);
+  });
 });
 
 describe("getDaysForMonth", () => {
